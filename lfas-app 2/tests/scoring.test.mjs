@@ -1,0 +1,17 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {DOMAINS, MODIFIERS, calculate, resultText, newAssessment} from '../public/scoring.js';
+const uniform = values => ({...newAssessment(), scores: DOMAINS.map((d,i) => d.signs.map(() => values[i]))});
+test('sheet includes exactly 8, 7, 6, 6 signs and six modifiers', () => { assert.deepEqual(DOMAINS.map(d=>d.signs.length),[8,7,6,6]); assert.equal(MODIFIERS.length,6); });
+test('unanswered signs are not zeros or complete scores', () => { const s = newAssessment(); let r=calculate(s); assert.equal(r.overall,null); assert.equal(r.domains[0].average,null); assert.throws(()=>resultText(s)); s.scores[0][0]=4; r=calculate(s); assert.equal(r.domains[0].average,4); assert.equal(r.overall,null); assert.equal(r.answered,1); });
+test('all zeros yield 0.0 and no artificial driver', () => { const r=calculate(uniform([0,0,0,0])); assert.equal(r.overall,0); assert.equal(r.primary,'None (all domains absent)'); assert.equal(r.secondary,'None'); });
+test('all fours yield 4.0 and four-way mixed pattern', () => { const r=calculate(uniform([4,4,4,4])); assert.equal(r.overall,4); assert.equal(r.mixedDomains.length,4); });
+test('overall equally averages the rounded domain scores, not individual signs', () => { const s=uniform([4,2,1,0]); const r=calculate(s); assert.equal(r.overall,1.8); assert.equal(r.primary,DOMAINS[0].name); assert.equal(r.secondary,DOMAINS[1].name); });
+test('domain rounding happens before overall rounding', () => { const s=uniform([0,0,0,0]); s.scores[0]=[1,1,1,1,1,0,0,0]; s.scores[1]=[1,1,1,1,1,0,0]; s.scores[2]=[1,1,1,1,1,0]; s.scores[3]=[1,1,1,1,1,0]; const r=calculate(s); assert.deepEqual(r.domains.map(d=>d.average),[0.6,0.7,0.8,0.8]); assert.equal(r.overall,0.7); });
+test('0.5 inclusive mixed boundary', () => { const s=uniform([3,0,0,0]); s.scores[1]=[2,2,2,2,3,3,3]; s.scores[2]=[2,2,2,3,3,3]; const r=calculate(s); assert.deepEqual(r.domains.map(d=>d.average),[3,2.4,2.5,0]); assert.deepEqual(r.mixedDomains,[DOMAINS[0].name,DOMAINS[2].name]); assert.match(r.secondary,/No separate/); });
+test('mixed grouping is relative to highest, not a chained sequence', () => { const s=uniform([3,0,2,0]); s.scores[1]=[3,3,3,2,2,2,3]; const r=calculate(s); assert.equal(r.domains[1].average,2.6); assert.deepEqual(r.mixedDomains,[DOMAINS[0].name,DOMAINS[1].name]); });
+test('exact secondary ties are preserved', () => { assert.equal(calculate(uniform([4,2,2,0])).secondary,`Tied: ${DOMAINS[1].name} + ${DOMAINS[2].name}`); });
+test('zero remaining domains produce no secondary driver', () => { assert.match(calculate(uniform([4,0,0,0])).secondary,/None/); });
+test('functional modifiers never affect scoring and are copied accurately', () => { const s=uniform([4,2,1,0]); const before=calculate(s); s.functional=[true,false,true,false,false,false]; assert.deepEqual(calculate(s),before); const text=resultText(s); assert.match(text,/Glabellar Complex, Orbicularis Oris/); assert.doesNotMatch(text,/not assessed/); assert.doesNotMatch(text,/Platysma/); });
+test('unanswered functional assessment is not reported as negative', () => { assert.match(resultText(uniform([1,1,1,1])),/Functional assessment incomplete; not assessed:/); });
+test('invalid inputs are rejected', () => { const s=uniform([0,0,0,0]); s.scores[0][0]=5; assert.throws(()=>calculate(s)); s.scores[0][0]=NaN; assert.throws(()=>calculate(s)); });

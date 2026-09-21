@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0E1B33"><meta name="description" content="LIFT Facial Aging Scale. Four-domain, session-only scoring with live averages.">
+  <meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="LFAS">
+  <title>LFAS · LIFT Facial Aging Scale</title>
+  <link rel="manifest" href="/manifest.webmanifest"><link rel="apple-touch-icon" href="/icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="/icons/icon-192.png">
+  <link rel="stylesheet" href="/styles.css"><script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="masthead"><a class="brand" href="/" aria-label="LIFT LFAS home">LIFT<span>MEDICAL ESTHETICS</span></a><div class="edition">CLINICAL SCORING TOOL<span>LFAS · VERSION 1.0</span></div></header>
+  <main>
+    <section class="intro"><div><div class="eyebrow">LIFT FACIAL AGING SCALE</div><h1>A clearer facial profile.</h1><p>Four morphological domains. One live assessment.</p></div><button id="reset" class="button secondary">Reset Assessment <span aria-hidden="true">↺</span></button></section>
+    <section class="guide" aria-label="Scoring guide"><div><strong>Score each sign</strong><span>Tap 0–4 to record severity.</span></div><div class="legend"><span><b>0</b> Absent</span><span><b>1</b> Mild</span><span><b>2</b> Moderate</span><span><b>3</b> Severe</span><span><b>4</b> Very Severe</span></div></section>
+    <nav class="domain-nav" aria-label="Jump to domain"></nav>
+    <div class="workspace"><div class="assessment"><div id="domains" class="domain-grid"></div>
+      <section class="functional" aria-labelledby="functional-title"><header><div><div class="eyebrow">FUNCTIONAL ASSESSMENT</div><h2 id="functional-title">Dynamic muscular activity</h2><p>Neuromodulation likely to benefit? Document increased resting tone or hyperactivity.</p></div><span class="unscored">UNSCORED</span></header><div id="modifiers"></div><p class="functional-note">Functional modifiers are recorded separately and do not affect LFAS scores.</p></section>
+    </div><aside class="summary" aria-labelledby="summary-title"><div class="summary-top"><div class="eyebrow">YOUR ASSESSMENT</div><h2 id="summary-title">LFAS profile</h2><p id="completion">0 of 27 signs scored</p><progress id="progress" max="27" value="0" aria-label="Scoring progress"></progress></div><div id="profile"></div><div class="overall"><div><span>Overall LFAS</span><small>Equal weight across four domains</small></div><div><strong id="overall">—</strong><span class="out-of"> / 4</span></div></div><div class="drivers"><div><span class="eyebrow">PRIMARY DRIVER</span><p id="primary">Pending complete scoring</p></div><div><span class="eyebrow">SECONDARY DRIVER</span><p id="secondary">Pending complete scoring</p></div></div><p id="pattern-note" class="pattern-note">Complete all 27 signs to identify drivers. Domains within 0.5 of the highest score form a mixed pattern.</p><button id="copy" class="button primary" disabled>Copy Results <span aria-hidden="true">↗</span></button><p id="copy-help" class="copy-help">Complete scoring to copy an EMR-ready summary.</p><div id="status" class="status" role="status" aria-live="polite"></div></aside></div>
+    <footer><span>LIFT FACIAL AGING SCALE <span class="footer-dot">·</span> Developed by Dr. Willem J. Gouws</span><span>Session only · No assessment data saved</span></footer>
+    <details class="about"><summary>Scoring &amp; iPad home-screen guide</summary><p>Domain scores are means rounded to one decimal. A partially scored domain shows a provisional average of answered signs; blanks never count as zero. Overall LFAS is the mean of the four rounded domain scores, rounded to one decimal, and appears only when all 27 signs are scored.</p><p>For mixed patterns, all domains within 0.5 points of the highest rounded score share the leading group. No primary/secondary order is forced within that group. Outside a mixed pattern, the second-highest score is secondary; exact secondary ties are listed together. All-zero scores have no driver.</p><p>On iPad: open the deployed app in Safari, tap Share, then Add to Home Screen. After the first online load, the app is available offline. Assessments stay only in this open page; refreshing or closing it clears your entries. Copy results before leaving. App files are cached for offline use; assessment entries are not.</p></details>
+  </main>
+  <dialog id="reset-dialog"><h2>Reset this assessment?</h2><p>All scores and functional answers will be cleared.</p><div class="dialog-actions"><button id="cancel-reset" class="button secondary">Keep assessment</button><button id="confirm-reset" class="button primary">Reset Assessment</button></div></dialog>
+  <dialog id="copy-dialog"><h2>Copy your results</h2><p>Automatic copying is unavailable. Select and copy the text below.</p><textarea id="copy-text" readonly aria-label="EMR-ready LFAS results"></textarea><button id="close-copy" class="button primary">Done</button></dialog>
+  <noscript><p class="no-script">Enable JavaScript to use LFAS scoring.</p></noscript>
+</body>
+</html>
