@@ -1,6 +1,6 @@
 # LFAS · LIFT Facial Aging Scale
 
-A standalone, iPad-first scoring web app based on the supplied LFAS sheet. It includes all 27 signs in the four morphological domains, six separate functional modifiers, live scoring, mixed-pattern handling, Reset Assessment, and EMR-ready Copy Results.
+A standalone, iPad-first scoring web app based on the supplied LFAS sheet. It includes all 27 signs in the four morphological domains, six separate functional modifiers, live scoring, mixed-pattern handling, Reset Assessment, and EMR-ready Copy Results. Version 1.1 adds a persistent scoring guide, explicit N/A handling, and a completed LFAS Summary view.
 
 ## Deploy to Vercel
 
@@ -24,15 +24,17 @@ Open the deployed HTTPS address in Safari. Choose **Share → Add to Home Screen
 
 - Tap 0–4 for each sign. Controls are at least 44 × 44 CSS pixels.
 - Blank means **unassessed**, not absent. Tap **0** explicitly for absent signs.
-- Domain averages update immediately. Partially answered domains are marked **provisional** and average only answered signs.
-- Overall LFAS, driver classification, and Copy Results become available after all 27 signs are answered.
+- Domain averages appear only when every sign is scored 0–4 or explicitly N/A, with at least **four numeric scores** in that domain. Blank signs keep the domain **Incomplete** and are subtly highlighted. N/A is separate from the main score row and excluded from the denominator. Use **Clear** to return an individual sign to blank.
+- Overall LFAS, driver classification, and copying become available after all four domains are complete. A domain with fewer than four assessable signs is blocked as **Insufficient assessable items**.
+- On first completion, the app opens **LFAS Summary** automatically. It shows all four scores, Overall LFAS, drivers/mixed pattern, coverage, and functional modifiers. **Edit Assessment** preserves your entries; **View LFAS Summary** returns to results after edits. **New Assessment** asks before clearing everything.
+- Functional answers can be recorded before completion or through **Edit functional assessment** on the summary page. This does not alter the morphological scores.
 - Answer functional modifiers Yes/No separately. They do not alter scores. Unanswered functional modifiers are identified as unassessed in copied text.
-- Copy Results and paste into the EMR. If the browser blocks automatic copying, the app shows selectable text for manual copying.
+- Use **Copy LFAS Summary** on the completed page, or **Copy Results** while editing, and paste into Jane/the EMR. N/A exclusions and reduced denominators are included in the text. If the browser blocks automatic copying, the app shows selectable text for manual copying.
 - Reset Assessment opens a confirmation. Copy any results you need before resetting or leaving the page.
 
 ## Calculation rules
 
-1. Each complete domain is the sum of its sign scores divided by its sign count: 8, 7, 6, 6. Round each mean to one decimal.
+1. Each complete domain is the sum of its numeric sign scores divided by its number of assessable signs. There are 8, 7, 6, 6 signs before exclusions. Zero is included; N/A is excluded. All signs must be resolved and at least four must have numeric scores. Round each mean to one decimal.
 2. Overall LFAS is the arithmetic mean of the **four rounded, displayed domain means**, rounded to one decimal. Every domain has equal weight, regardless of sign count.
 3. Driver comparisons use these displayed domain means. A unique highest score is primary unless another domain is within **0.5 points inclusive**.
 4. Mixed Pattern means all domains within 0.5 of the highest share the leading group. The app names that group as primary and reports **no separate secondary driver**, avoiding a forced ranking inside the group. The threshold is measured from the highest score, not chained between adjacent scores.

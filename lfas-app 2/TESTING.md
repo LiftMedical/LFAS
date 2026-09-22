@@ -1,23 +1,26 @@
-# Validation · 21 September 2026
+# Validation · Version 1.1 · 22 September 2026
 
 ## Executed successfully
 
-- 13 automated scoring tests: exact sign counts, blank/partial state, zero and maximum inputs, equal domain weighting, rounding order, inclusive 0.5 boundary, non-chained mixed grouping, secondary ties, no zero-score secondary, independent functional modifiers, incomplete functional export, invalid inputs.
-- In-app browser: all 135 score buttons plus 12 functional buttons rendered; minimum 44-pixel control dimensions measured.
-- Responsive layout checked at 1194, 1024, 834, 390, and 320 pixels; no horizontal document overflow at observed sizes.
-- Full 27-sign entry produced domain averages 3.0, 3.0, 1.0, 2.0, overall 2.3, and a two-domain mixed pattern.
-- Functional Yes/No controls operated without changing morphological scores.
-- Copy Results displayed successful clipboard-write feedback. The host browser’s clipboard readback did not expose the copied string; text content was verified through the automated export tests.
-- Reset confirmation, cleared scores, disabled Copy Results on incomplete assessment, keyboard arrow selection, and clearing on reload observed.
-- No JavaScript error entries reported by the in-app browser.
+- All 21 automated scoring tests pass: sign counts, blanks, zeros, maximum inputs, equal domain weighting, rounding, mixed patterns, secondary ties, independent functional modifiers, invalid input, N/A exclusions, minimum four numeric scores per domain, all-N/A blocking, clearing, and exported exclusions.
+- JavaScript syntax check passed.
+- Browser workflow: four numeric scores plus four N/A entries gave Structural Support 2.0. Replacing the fourth numeric score with N/A blocked the domain; restoring zero recovered it.
+- Completing all domains automatically opened LFAS Summary with averages 2.0, 3.0, 1.0, 2.0; overall 2.0; Mobility primary; tied Structural Support and Envelope secondary.
+- Functional Yes selection appeared in the summary without changing the morphological scores.
+- Edit Assessment preserved entries. Clearing a score removed the domain mean and overall, and disabled copying. Restoring the score remained in the assessment view; View Summary reopened the summary.
+- Copy LFAS Summary reported successful clipboard writing. Export content is covered by automated tests; actual pasting into Jane was not tested.
+- New Assessment cancellation preserved the assessment; confirmation cleared all score and functional selections.
+- Keyboard End selected N/A.
+- Landscape iPad-sized assessment and summary visually inspected at 1194 × 834. No horizontal overflow observed at 1194, 390, and 320 pixels. Numeric and N/A targets measured at least 44 pixels in height and width at the mobile sizes.
 
-## Remaining deployment/device checks
+## Remaining device/deployment checks
 
-A physical iPad/Safari session was unavailable. Home-screen installation, offline reopening, and pasting into the actual EMR must be checked on that device after HTTPS deployment. Automated standalone Chrome launch was blocked by the local environment; UI verification used the app’s browser instead. Clipboard denial fallback is implemented but was not forced in the in-app browser.
+A physical iPad/Safari session was unavailable. After deployment:
 
-1. Open the HTTPS app in Safari and score a full assessment by touch.
-2. Copy and paste into a blank EMR note; verify all four means, overall, mixed/driver wording, and positive modifiers.
-3. Add to Home Screen; confirm the LFAS icon and standalone launch.
-4. After one complete online load, close the app, enable airplane mode, reopen, and confirm scoring works.
-5. Reset between assessments; confirm all 27 signs and six modifiers clear.
-6. Test portrait/landscape rotation and reopening after backgrounding.
+1. Score an assessment on the iPad; verify blank, zero and N/A controls.
+2. Copy the summary into Jane and confirm scores, driver wording, N/A exclusions and functional modifiers.
+3. Close all existing LFAS tabs/home-screen windows, reopen online, and confirm VERSION 1.1. A second close/reopen may be needed while the new offline cache installs.
+4. Check Home Screen launch and offline reopening after a complete online load.
+5. Test portrait/landscape rotation and background/resume.
+
+Clipboard-denial fallback is implemented but was not forced in the browser. No live deployment was changed during this update.

@@ -1,5 +1,5 @@
 // Increment this version when changing any app file. Assessment data never enters the cache.
-const CACHE = 'lfas-shell-v1';
+const CACHE = 'lfas-shell-v1-1';
 const FILES = ['/', '/index.html', '/styles.css', '/app.js', '/scoring.js', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/maskable-512.png', '/icons/apple-touch-icon.png'];
 self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES))));
 // Wait for open pages to close before activating an update; never reload an active assessment.
